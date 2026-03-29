@@ -11,9 +11,7 @@
 
 ---
 
-> **Mirrors Infosys's production systems for the Australian Open, Roland Garros, and Formula E.**  
-> Built from scratch to demonstrate SP L2/L3 engineering depth: distributed systems,
-> real-time streaming, and GPU-accelerated AI on a 6-machine private cluster.
+
 
 ---
 
@@ -181,7 +179,7 @@ cp .env.example .env
 
 ---
 
-## What This Proves (For Infosys SP L2/L3)
+## What This Proves 
 
 | Requirement | How this project satisfies it |
 |-------------|------------------------------|
@@ -194,14 +192,3 @@ cp .env.example .env
 
 ---
 
-## Team
-
-| Member | Role |
-|--------|------|
-| (Your Name) | Architecture, AI Engine, Kafka Infrastructure |
-| (Teammate) | Spark Streaming, TimescaleDB, FastAPI |
-| (Teammate) | React Dashboard, Monitoring, K8s Deployment |
-
----
-
-*Built for HackWithInfy — targeting Infosys SP L2/L3 evaluation.*
