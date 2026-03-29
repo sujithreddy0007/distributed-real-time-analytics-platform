@@ -1,0 +1,65 @@
+global:
+  scrape_interval: 15s      # Every 15s pull metrics from all targets
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["192.168.1.11:9093"]
+
+rule_files:
+  - "alert_rules.yml"
+
+# ── Scrape Targets ────────────────────────────────────────────────────────────
+scrape_configs:
+
+  # FastAPI backend (exposes /metrics endpoint via prometheus-client)
+  - job_name: "fastapi"
+    static_configs:
+      - targets: ["192.168.1.12:8000"]
+    metrics_path: /metrics
+
+  # Kafka JMX exporter — broker metrics from all 3 nodes
+  - job_name: "kafka"
+    static_configs:
+      - targets:
+          - "192.168.1.12:7071"
+          - "192.168.1.13:7071"
+          - "192.168.1.14:7071"
+
+  # Spark Master and Workers — JMX metrics
+  - job_name: "spark"
+    static_configs:
+      - targets:
+          - "192.168.1.13:4040"   # Spark Master UI / metrics
+          - "192.168.1.12:4041"   # Worker 1
+          - "192.168.1.13:4041"   # Worker 2
+          - "192.168.1.14:4041"   # Worker 3
+
+  # Redis Exporter — memory, hit rate, commands/sec
+  - job_name: "redis"
+    static_configs:
+      - targets: ["192.168.1.14:9121"]
+
+  # TimescaleDB / PostgreSQL exporter
+  - job_name: "postgres"
+    static_configs:
+      - targets: ["192.168.1.15:9187"]
+
+  # Node exporter — CPU, memory, disk, network per machine
+  - job_name: "node-exporter"
+    static_configs:
+      - targets:
+          - "192.168.1.10:9100"   # GPU machine
+          - "192.168.1.11:9100"   # Node 1
+          - "192.168.1.12:9100"   # Node 2
+          - "192.168.1.13:9100"   # Node 3
+          - "192.168.1.14:9100"   # Node 4
+          - "192.168.1.15:9100"   # Node 5
+
+  # AI Engine — custom /metrics endpoint
+  - job_name: "ai-engine"
+    static_configs:
+      - targets: ["192.168.1.10:9200"]
+    metrics_path: /metrics
